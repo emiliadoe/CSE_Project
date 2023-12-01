@@ -22,3 +22,20 @@ npx expo start<br/>
 -> you could also combine both steps (`git checkout -b YOUR_BRANCH_NAME develop`) <br/>
 
 3. After finishing the Feature do a pull request to get approval of your changes before your code is merged into the dev branch
+
+
+# Project Structure
+
+Components: Contains all files and folders for reusable components like Buttons <br/>
+
+Pages: Contains different pages of the app (HomeScreen, LoginScreen, etc.) <br/>
+
+Assets: storing images & other assets <br/>
+
+Utils: Tools like string formatting <br/>
+
+Styles: shared colors & text styles <br/>
+
+
+
+
