@@ -1,18 +1,16 @@
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import StackNavigator from './src/navigation/StackNavigator';
+import TabNavigator from './src/navigation/TabNavigator';
 
-import HomeScreen from './src/pages/HomeScreen';
-import LocationApp from './src/pages/LocationApp';
-
-const Stack = createStackNavigator();
 
 const AppNavigator = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={LocationApp} />
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>
+   <NavigationContainer>
+     {/*  <StackNavigator/>   */}
+      <TabNavigator/>  
+  </NavigationContainer> 
+     
 );
 
 export default AppNavigator;
