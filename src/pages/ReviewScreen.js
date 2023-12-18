@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         flex: 1, 
         justifyContent: 'flex-end',
         marginBottom: 40,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
 
       modalContent: {
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         justifyContent: 'center', 
-      /*   marginTop: 30, */
       },
 
    button: {
@@ -60,7 +58,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',  
     height:50, 
-  /*   position: fixed */
   },
 
   buttonText: {
@@ -72,7 +69,6 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center', 
     marginTop: 10,
-  /*   position: fixed */
   },
 
   cancelButtonText: {

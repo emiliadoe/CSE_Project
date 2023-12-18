@@ -4,11 +4,15 @@ import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import AddButton from '../components/AddButton';
 import ReviewModal from "../pages/ReviewScreen"
+import LoginPage from '../pages/Login'
+import AddReviewPage from '../pages/AddReview'
+import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = ()  => {
 
     const [location, setLocation] = useState(null);
     const [isReviewModalVisible, setReviewModalVisible] = useState(false);
+    const navigation = useNavigation();
 
     const handleButton = () => {
       setReviewModalVisible(true);
@@ -19,9 +23,27 @@ const MapScreen = ()  => {
     };
 
     const handleOptionPress = (option) => {
-      console.log(`Option ${option} pressed`);
-      setReviewModalVisible(false);
+      switch (option) {
+        case 1:
+          // Handle option 1 (Add a Review)
+          setReviewModalVisible(false);
+          navigation.navigate(AddReviewPage)
+          break;
+        case 2:
+          // Handle option 2 (Add Photos)
+          setReviewModalVisible(false);
+          navigation.navigate(LoginPage)
+          break;
+        case 3:
+          // Handle option 3 (Add Listing)
+          setReviewModalVisible(false);
+          navigation.navigate(LoginPage)
+          break;
+        default:
+          // Handle other cases or provide a default action
+          break;
     };
+  }
 
     const handleCancel = () => {
       setReviewModalVisible(false);
@@ -52,7 +74,7 @@ const MapScreen = ()  => {
     <View  style={{ flex: 1 }}>
     {location  ? (
       //if location true
-      <View  style={styles.container} >
+       <View  style={styles.container} > 
       <MapView
            style={styles.map}   
           initialRegion={{
@@ -67,16 +89,19 @@ const MapScreen = ()  => {
           title="Marker Title"
           description="Marker Description"
         />
+
         <AddButton onPress={handleButton}></AddButton>
 
+        <View style={styles.modalContainer}>
        <ReviewModal
         isVisible={isReviewModalVisible}
         onClose={handleCloseReviewModal}
         onOptionPress={handleOptionPress}
         onCancel={handleCancel}
       />
+      </View>
       </MapView>  
-      </View>  
+      </View>
     ) : (
       //if no location
       <View style={styles.loadingContainer}>
@@ -91,6 +116,12 @@ const MapScreen = ()  => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+    },
+    modalContainer: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
     },
     map: {
       flex: 1,
