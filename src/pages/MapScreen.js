@@ -7,6 +7,7 @@ import ReviewModal from "../pages/ReviewScreen"
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
 import { useNavigation } from '@react-navigation/native';
+import SearchBar from '../components/SearchBar';
 
 const MapScreen = ()  => {
 
@@ -102,19 +103,23 @@ const MapScreen = ()  => {
           longitudeDelta: 0.0421,
         }}
       >
-        <Marker
-          coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}
-          title="Marker Title"
-          description="Marker Description"
-        />
-        {markers.map((marker, index) => (
+     {/*    <SearchBar/> */}
+              <Marker
+      coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}
+      title="Marker Title"
+      description="Marker Description"
+    />
+       {Array.isArray(markers) && markers.length > 0 ? (
+        markers.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{latitude:marker.latitude,longitude: marker.longitude}}
             title={marker.name}
             description={marker.description}
        />
-  ))}
+  ))
+  )  :  (<View></View>)
+        }
         <AddButton onPress={handleButton}></AddButton>
 
         <View style={styles.modalContainer}>
