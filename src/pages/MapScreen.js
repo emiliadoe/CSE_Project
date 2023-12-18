@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = ()  => {
 
+
     const [location, setLocation] = useState(null);
     const [isReviewModalVisible, setReviewModalVisible] = useState(false);
     const [markers,setMarkers] = useState(null);
@@ -54,14 +55,14 @@ const MapScreen = ()  => {
     useEffect(() => {
       async function fetchMarkers() {
           try {
-              const ip = process.env.CurrentIP;
-              const response = await fetch("http://192.168.0.64:3000/markers/");
+            const ip = process.env.CurrentIP;
+              console.log("ip" + ip);
+              const response = await fetch(`http://${ip}:3000/markers/`);
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
               const data = await response.json();
               setMarkers(data);
-              console.log("Markers"+markers);
           } catch (error) {
               console.error('Error fetching markers:', error);
           }
