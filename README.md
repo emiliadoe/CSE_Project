@@ -10,8 +10,10 @@ npx install <!-- for installing dependencies --><br/>
 
 # how to start Project (we are using expo to see app)
 
+updating .env with your own IP Adress to connect to DB: 
+
 cd Poject Directory<br/>
-npx expo start<br/>
+(npx) expo start<br/>
 
 
 # how to work with git  
