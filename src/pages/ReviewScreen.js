@@ -11,7 +11,7 @@ const ReviewModal = ({ isVisible, onClose, onOptionPress, onCancel }) => {
     >
 
       <View style={styles.modalContainer}>
-      <Text style={styles.cancelButtonText}>Create</Text>
+     {/*  <Text style={styles.cancelButtonText}>Create</Text> */}
 
         <View style={styles.modalContent}>
           <TouchableOpacity onPress={() => onOptionPress(1)} style={styles.button}>
@@ -37,7 +37,7 @@ const ReviewModal = ({ isVisible, onClose, onOptionPress, onCancel }) => {
 
 const styles = StyleSheet.create({
     modalContainer: {
-         flex: 1, 
+        flex: 1, 
         justifyContent: 'flex-end',
         marginBottom: 40,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -48,16 +48,19 @@ const styles = StyleSheet.create({
         padding: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        justifyContent: 'center', 
+      /*   marginTop: 30, */
       },
 
    button: {
     backgroundColor: 'rgba(228,218,242,255)',
     padding: 10,
     borderRadius: 5,
-/*     marginBottom: 10, */
+    marginBottom: 10, 
     alignItems: 'center',
-    justifyContent: 'center', 
+    justifyContent: 'center',  
     height:50, 
+  /*   position: fixed */
   },
 
   buttonText: {
@@ -68,8 +71,10 @@ const styles = StyleSheet.create({
   cancelButton: {
     padding: 10,
     alignItems: 'center', 
-    marginTop: 10
+    marginTop: 10,
+  /*   position: fixed */
   },
+
   cancelButtonText: {
     color: 'black',
     fontWeight: 'bold'
