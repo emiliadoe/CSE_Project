@@ -4,6 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Mockpage from '../pages/MockPage'
 import MapScreen from '../pages/MapScreen';
 import ReviewModal from '../pages/ReviewScreen';
+import LoginPage from '../pages/Login'
+import AddReviewPage from '../pages/AddReview'
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -17,6 +19,8 @@ const MainStackScreen = () => (
     <MainStack.Screen 
     name="Explore" 
     component={MapScreen}  />
+     <MainStack.Screen name="AddReviewPage" component={AddReviewPage} />
+     <MainStack.Screen name="LoginPage" component={LoginPage} />
   </MainStack.Navigator>
 );
 

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Mockpage = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Explore Screen</Text>
+    <Text>We are currently working on this feature... Coming Soon!</Text>
   </View>
 );
 
