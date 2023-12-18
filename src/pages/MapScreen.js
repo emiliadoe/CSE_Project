@@ -9,6 +9,7 @@ const MapScreen = ()  => {
 
     const [location, setLocation] = useState(null);
     const [isReviewModalVisible, setReviewModalVisible] = useState(false);
+    const [markers,setMarkers] = useState(null);
 
     const handleButton = () => {
       setReviewModalVisible(true);
@@ -26,8 +27,25 @@ const MapScreen = ()  => {
     const handleCancel = () => {
       setReviewModalVisible(false);
     };
-  
 
+  
+    useEffect(() => {
+      async function fetchMarkers() {
+          try {
+              const ip = process.env.CurrentIP;
+              const response = await fetch("http://192.168.0.64:3000/markers/");
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              const data = await response.json();
+              setMarkers(data);
+              console.log("Markers"+markers);
+          } catch (error) {
+              console.error('Error fetching markers:', error);
+          }
+      }
+      fetchMarkers();
+  }, []);
    useEffect(() => {
     (async () => {
       try {
@@ -67,6 +85,14 @@ const MapScreen = ()  => {
           title="Marker Title"
           description="Marker Description"
         />
+        {markers.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{latitude:marker.latitude,longitude: marker.longitude}}
+            title={marker.name}
+            description={marker.description}
+       />
+  ))}
         <AddButton onPress={handleButton}></AddButton>
 
        <ReviewModal
