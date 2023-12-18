@@ -3,6 +3,39 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Mockpage from '../pages/MockPage'
 import MapScreen from '../pages/MapScreen';
+import ReviewModal from '../pages/ReviewScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+const MainStack = createStackNavigator();
+
+const MainStackScreen = () => (
+  <MainStack.Navigator 
+  screenOptions={{
+    headerShown: false
+    }}>
+    <MainStack.Screen 
+    name="Explore" 
+    component={MapScreen}  />
+  </MainStack.Navigator>
+);
+
+const ModalStack = createStackNavigator();
+
+const ModalStackScreen = () => (
+  <ModalStack.Navigator screenOptions={{
+    headerShown: false,
+    presentation:"modal"
+  }}>
+    <ModalStack.Screen name="Main" component={MainStackScreen} screenOptions={{
+    headerShown: false
+    }}/>
+    <ModalStack.Screen name="ReviewModal" component={ReviewModal} screenOptions={{
+    headerShown: false
+    }}/>
+  </ModalStack.Navigator>
+);
+
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +53,7 @@ const TabNavigator = () => (
       />
       */
       screenOptions={({ route }) => ({
-        headerShown: false,
+        headerShown: false, 
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
   
@@ -46,11 +79,14 @@ const TabNavigator = () => (
       >
         <Tab.Screen
         name="Explore"
-        component={MapScreen}
+        component={ModalStackScreen}
       />
        <Tab.Screen
         name="Social"
         component={Mockpage}
+      /*   options={
+          tabBarIcon= <Icon iconName={'search'} size={20} color={"white"} /> 
+        } */
       />
       <Tab.Screen
         name="Feed"

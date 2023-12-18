@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 50, 
     height: 50,
-    borderRadius: 25,    
+    borderRadius: 25,   
+    justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     bottom: 80,
@@ -27,7 +28,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+/*     bottom: 80,
+    right: 40, */
   },
 });
 

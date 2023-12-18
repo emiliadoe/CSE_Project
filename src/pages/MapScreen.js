@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Image} from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import AddButton from '../components/AddButton';
+import ReviewModal from "../pages/ReviewScreen"
 
 const MapScreen = ()  => {
 
     const [location, setLocation] = useState(null);
+    const [isReviewModalVisible, setReviewModalVisible] = useState(false);
 
     const handleButton = () => {
-      console.log("Add")
-    }
+      setReviewModalVisible(true);
+    };
+  
+    const handleCloseReviewModal = () => {
+      setReviewModalVisible(false);
+    };
+
+    const handleOptionPress = (option) => {
+      console.log(`Option ${option} pressed`);
+      setReviewModalVisible(false);
+    };
+
+    const handleCancel = () => {
+      setReviewModalVisible(false);
+    };
+  
 
    useEffect(() => {
     (async () => {
@@ -53,12 +69,18 @@ const MapScreen = ()  => {
         />
         <AddButton onPress={handleButton}></AddButton>
 
+       <ReviewModal
+        isVisible={isReviewModalVisible}
+        onClose={handleCloseReviewModal}
+        onOptionPress={handleOptionPress}
+        onCancel={handleCancel}
+      />
       </MapView>  
       </View>  
     ) : (
       //if no location
       <View style={styles.loadingContainer}>
-     {/*  <Image></Image> */}
+      <Image source={require('../assets/icons/happycow2.jpg')} /> 
       <Text>Loading location...</Text>
       </View>
     )}
