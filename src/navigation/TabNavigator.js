@@ -1,11 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';;
 import Mockpage from '../pages/MockPage'
 import MapScreen from '../pages/MapScreen';
 import ReviewModal from '../pages/ReviewScreen';
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
+import RestaurantModal from '../pages/OneRestaurantModal';
+import RestaurantPage from '../pages/OneRestaurant';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -21,6 +23,7 @@ const MainStackScreen = () => (
     component={MapScreen}  />
      <MainStack.Screen name="AddReviewPage" component={AddReviewPage} />
      <MainStack.Screen name="LoginPage" component={LoginPage} />
+     <MainStack.Screen name="RestaurantPage" component={RestaurantPage} />
   </MainStack.Navigator>
 );
 
@@ -35,6 +38,9 @@ const ModalStackScreen = () => (
     headerShown: false
     }}/>
     <ModalStack.Screen name="ReviewModal" component={ReviewModal} screenOptions={{
+    headerShown: false
+    }}/>
+    <ModalStack.Screen name="RestaurantModal" component={RestaurantModal} screenOptions={{
     headerShown: false
     }}/>
   </ModalStack.Navigator>
@@ -58,7 +64,7 @@ const TabNavigator = () => (
       */
       screenOptions={({ route }) => ({
         headerShown: false, 
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color}) => {
           let iconName;
   
           if (route.name === 'Explore') {
@@ -102,7 +108,7 @@ const TabNavigator = () => (
       />
           <Tab.Screen
         name="Me"
-        component={Mockpage}
+        component={LoginPage}
 /*         options={{
           tabBarLabel: 'Me',
           tabBarIcon: ({ color, size }) => (

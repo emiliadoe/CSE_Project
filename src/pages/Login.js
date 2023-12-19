@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const LoginPage = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

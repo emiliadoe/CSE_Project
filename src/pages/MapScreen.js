@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image} from 'react-native';
+import { StyleSheet, View, Text, Image, Button} from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import AddButton from '../components/AddButton';
 import ReviewModal from "../pages/ReviewScreen"
+import RestaurantModal from './OneRestaurantModal';
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +16,21 @@ const MapScreen = ()  => {
     const [location, setLocation] = useState(null);
     const [isReviewModalVisible, setReviewModalVisible] = useState(false);
     const [markers,setMarkers] = useState(null);
+    const [isRestaurantModalVisible, setRestaurantModalVisible] = useState(false);
+    const [selectedMarker, setSelectedMarker] = useState(null);
+
+  
+    const handleMarkerPress = (marker) => {
+      console.log(isRestaurantModalVisible)
+      setSelectedMarker(marker);
+      setRestaurantModalVisible(true);
+    };
+  
+    const closeRestaurantModal = () => {
+      setSelectedMarker(null);
+      setRestaurantModalVisible(false);
+    };
+
     const navigation = useNavigation();
 
     const handleButton = () => {
@@ -107,8 +123,9 @@ const MapScreen = ()  => {
      {/*    <SearchBar/> */}
               <Marker
       coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}
-      title="Marker Title"
-      description="Marker Description"
+      title="Current Location"
+      description="You are here!"
+      pinColor='rgb( 128, 85, 200)'
     />
        {Array.isArray(markers) && markers.length > 0 ? (
         markers.map((marker, index) => (
@@ -117,12 +134,27 @@ const MapScreen = ()  => {
             coordinate={{latitude:marker.latitude,longitude: marker.longitude}}
             title={marker.name}
             description={marker.description}
+           /*  onPress={() => handleMarkerPress(marker)}   */
        />
+       
   ))
-  )  :  (<View></View>)
-        }
-        <AddButton onPress={handleButton}></AddButton>
+  ) :  null}
+ {/* <View>
+    <RestaurantModal
+    animationType="slide"
+    transparent={false}
+    visible={isRestaurantModalVisible}
+    onRequestClose={isRestaurantModalVisible===false}
+  >  */}
+     {/* <View style={styles.modalContainer}>
+      <Text>{selectedMarker?.name}</Text>
+      <Text>{selectedMarker?.description}</Text>
+      <Button title="Close" onPress={closeRestaurantModal} />
+    </View>   */}
+{/*    </RestaurantModal>
+  </View>   */}   
 
+        <AddButton onPress={handleButton}></AddButton>
         <View style={styles.modalContainer}>
        <ReviewModal
         isVisible={isReviewModalVisible}
