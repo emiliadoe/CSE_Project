@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';;
+import { Ionicons } from "@expo/vector-icons"; 
 import Mockpage from '../pages/MockPage'
 import MapScreen from '../pages/MapScreen';
 import ReviewModal from '../pages/ReviewScreen';
@@ -50,53 +50,43 @@ const ModalStackScreen = () => (
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => (
+  
   <Tab.Navigator
-   /*      initialRouteName="Home"
-      screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
-      }} 
-      tabBarIcon: ({ focused }) => (
-          <Icon name="home" size={30} color={focused ? '#551E18' : '#000'} />
-        ),
-        tabBarLabel: () => <Text style={styles.tabBarLabel}>Home</Text>
-      }}
-      />
-      */
+/*          initialRouteName="Home"*/
       screenOptions={({ route }) => ({
         headerShown: false, 
+        tabBarActiveTintColor: 'rgb( 128, 85, 200)',
         tabBarIcon: ({ focused, color}) => {
           let iconName;
   
           if (route.name === 'Explore') {
-            iconName = 'search';
+            iconName = "md-search-outline";
             color = focused ? 'rgb( 128, 85, 200)' : '#a9a9a9';
           } else if (route.name === 'Social') {
-            iconName = 'search';
+            iconName = "md-person-add-outline";
             color = focused ? 'rgb( 128, 85, 200)' : '#a9a9a9';          }  
           else if (route.name === 'Feed') {
-            iconName = 'home';
+            iconName = "md-home-outline";
             color = focused ? 'rgb( 128, 85, 200)' : '#a9a9a9';          }  
           else if (route.name === 'Notifications') {
-            iconName = 'search';
+            iconName = "md-notifications-outline";
             color = focused ? 'rgb( 128, 85, 200)' : '#a9a9a9';          }  
           else if (route.name === 'Me') {
-            iconName = "user"
+            iconName = "md-person-outline";
             color = focused ? 'rgb( 128, 85, 200)' : '#a9a9a9';          }  
 
-          return <Icon iconName={iconName} size={20} color={color} />;
+          return <Ionicons name={iconName} size={30} color={color} />;
         },
       })}
       >
         <Tab.Screen
         name="Explore"
         component={ModalStackScreen}
+       
       />
        <Tab.Screen
         name="Social"
         component={Mockpage}
-      /*   options={
-          tabBarIcon= <Icon iconName={'search'} size={20} color={"white"} /> 
-        } */
       />
       <Tab.Screen
         name="Feed"
@@ -105,18 +95,16 @@ const TabNavigator = () => (
       <Tab.Screen
         name="Notifications"
         component={Mockpage}
+  /*       options={{
+          activeTintColor: 'rgb( 128, 85, 200)', 
+        }}  */
       />
           <Tab.Screen
         name="Me"
         component={LoginPage}
-/*         options={{
-          tabBarLabel: 'Me',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }} */
       />
     </Tab.Navigator>
 );
+
 export default TabNavigator;
 
