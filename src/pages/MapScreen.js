@@ -90,7 +90,7 @@ const MapScreen = ()  => {
           try {
             const ip = process.env.CurrentIP;
               console.log("ip" + ip);
-              const response = await fetch(`http://172.20.10.2:3000/markers/`); /* ${ip} */
+              const response = await fetch(`http://${ip}:3000/markers/`); /* ${ip} */
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
