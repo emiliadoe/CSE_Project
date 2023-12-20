@@ -5,12 +5,15 @@ We build an app, that is already in the App Store and is called HappyCow. You ca
 
 
 # how to install dependencies 
-npx install <!-- for installing dependencies --><br/>
+npm install <!-- for installing dependencies --><br/>
 
 
 # how to start Project (we are using expo to see app)
 
-updating .env with your own IP Adress to connect to DB: 
+IMPORTANT: updating .env with your own IP Adress to connect to DB!!<br/>
+npm start (CSE_Backend) to start Backend and DB <br/>
+expo start to start Frontend <br/>
+scanning QR Code with phone to open App <br/>
 
 cd Poject Directory<br/>
 (npx) expo start<br/>

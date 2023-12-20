@@ -11,8 +11,8 @@ const RestaurantPage = () => {
 
   const restaurant1 = {
     reviews: [
-      { user: 'User1', rating: 4, comment: 'Great food!' },
-      { user: 'User2', rating: 5, comment: 'Excellent service!' },
+      { user: 'User1', rating: 4, comment: 'Great food!', id:"1" },
+      { user: 'User2', rating: 5, comment: 'Excellent service!', id:"2" },
     ],
   };
 
@@ -55,7 +55,8 @@ const RestaurantPage = () => {
 <View>
 <FlatList
       data={restaurant1.reviews}
-      keyExtractor={(item) => item.id}
+  /*     keyExtractor={(item) => item.id} */
+      keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
     />
     </View>
