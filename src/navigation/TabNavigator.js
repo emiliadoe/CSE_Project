@@ -10,6 +10,7 @@ import RestaurantModal from '../pages/OneRestaurantModal';
 /* import RestaurantPage from '../pages/OneRestaurant';
  */import RestaurantPage from '../pages/Restaurant';
 import { createStackNavigator } from '@react-navigation/stack';
+import RestaurantOverview from '../pages/AllRestaurants';
 
 
 const MainStack = createStackNavigator();
@@ -25,6 +26,7 @@ const MainStackScreen = () => (
      <MainStack.Screen name="AddReviewPage" component={AddReviewPage} />
      <MainStack.Screen name="LoginPage" component={LoginPage} />
      <MainStack.Screen name="RestaurantPage" component={RestaurantPage} />
+     <MainStack.Screen name="RestaurantOverview" component={RestaurantOverview} />
   </MainStack.Navigator>
 );
 
@@ -91,7 +93,7 @@ const TabNavigator = () => (
       />
       <Tab.Screen
         name="Feed"
-        component={Mockpage}
+        component={RestaurantOverview}
       />
       <Tab.Screen
         name="Notifications"

@@ -181,7 +181,8 @@ const MapScreen = ()  => {
               </View>  
           )} 
  */}
-         <AddButton onPress={handleButton}/>
+         <AddButton onPress={handleButton} style={{ /* bottom: 78,
+    right: 40 */}}/>
     
         <View style={styles.modalContainer}>
        <ReviewModal
