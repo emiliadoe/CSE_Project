@@ -1,13 +1,12 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 
 const AddButton = ({ onPress }) => {
 
-
-  return <TouchableOpacity 
+  return <TouchableOpacity
             style={styles.button} 
             onPress={onPress}>       
-            <Text style={styles.buttonText}>+</Text>
+            <Text  style={styles.buttonText} >+</Text>
         </TouchableOpacity>
 };
 
@@ -19,17 +18,17 @@ const styles = StyleSheet.create({
     width: 50, 
     height: 50,
     borderRadius: 25,   
+     position: 'absolute', 
+    bottom: 78,
+    right: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    bottom: 80,
-    right: 40,
+     zIndex: 1, 
   },
   buttonText: {
     color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-    position: 'absolute' 
+    fontSize: 25, 
+    fontWeight: 'bold',   
   },
 });
 

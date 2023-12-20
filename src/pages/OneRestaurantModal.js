@@ -1,17 +1,33 @@
 import React from 'react';
-import { View, Text, Image, Modal, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, Modal, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
-const RestaurantModal = ({ isVisible, onClose, restaurant }) => {
+const RestaurantModal = ({ isVisible, onClose, restaurant, onCancel }) => {
     console.log(restaurant)
   return (
     <Modal
+    animationType="slide"
+    transparent={true}
+    visible={isVisible}
+    onRequestClose={onClose}
+  >
+    <View style={styles.modalContainer}>
+      <View style={styles.modalContent}>
+
+        <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
+          <Text style={styles.cancelButtonText}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  {/*   </TouchableWithoutFeedback> */}
+  </Modal>)
+   /*  <Modal
       animationType="slide"
       transparent={true}
       visible={isVisible}
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
+        <View style={styles.modalContent}> */
           {/*  <Image source= "../assets/icons/happycow2.jpg" style={styles.image} />  */}
          {/*  <Text style={styles.title}> {restaurant.name}</Text>
           <Text style={styles.description}>{restaurant.description}</Text>
@@ -22,21 +38,20 @@ const RestaurantModal = ({ isVisible, onClose, restaurant }) => {
               <Text>{`Rating: ${review.rating}/5`}</Text>
               <Text>{`Comment: ${review.comment}`}</Text>
             </View>
-          ))} */}
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>Close</Text>
+          ))} */}          
+ /*          <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </Modal>
-  );
+    </Modal> */
 };
 
 const styles = StyleSheet.create({
   modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    flex: 1, 
+    justifyContent: 'center',
+ /*    marginBottom: 0, */
   },
   modalContent: {
     backgroundColor: 'white',
@@ -67,17 +82,17 @@ const styles = StyleSheet.create({
   review: {
     marginBottom: 8,
   },
-  closeButton: {
-    padding: 10,
-    alignItems: 'center',
-    backgroundColor: 'rgba(228,218,242,255)',
-    borderRadius: 5,
-    marginTop: 10,
+  cancelButton: {
+  /*   padding: 10, */
+    alignItems: 'center', 
+   /*  marginTop: 10, */
   },
-  closeButtonText: {
-    color: 'rgb(128, 85, 200)',
-    fontWeight: 'bold',
+  
+  cancelButtonText: {
+    color: 'black',
+    fontWeight: 'bold'
   },
 });
+
 
 export default RestaurantModal;
