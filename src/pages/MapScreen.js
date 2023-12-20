@@ -5,8 +5,7 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import AddButton from '../components/AddButton';
 import ReviewModal from "../pages/ReviewScreen"
 import RestaurantModal from './OneRestaurantModal';
-/* import RestaurantPage from './OneRestaurant';
- */import RestaurantPage from './Restaurant';
+import RestaurantPage from './Restaurant';
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
 import { useNavigation } from '@react-navigation/native';
@@ -90,7 +89,7 @@ const MapScreen = ()  => {
           try {
             const ip = process.env.CurrentIP;
               console.log("ip" + ip);
-              const response = await fetch(`http://172.20.10.2:3000/markers/`); /* ${ip} */
+              const response = await fetch(`http://${ip}:3000/markers/`); /* ${ip} */
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
