@@ -7,7 +7,8 @@ import ReviewModal from '../pages/ReviewScreen';
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
 import RestaurantModal from '../pages/OneRestaurantModal';
-import RestaurantPage from '../pages/OneRestaurant';
+/* import RestaurantPage from '../pages/OneRestaurant';
+ */import RestaurantPage from '../pages/Restaurant';
 import { createStackNavigator } from '@react-navigation/stack';
 
 

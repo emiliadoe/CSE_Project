@@ -11,7 +11,6 @@ const ReviewModal = ({ isVisible, onClose, onOptionPress, onCancel }) => {
     >
 
       <View style={styles.modalContainer}>
-     {/*  <Text style={styles.cancelButtonText}>Create</Text> */}
 
         <View style={styles.modalContent}>
           <TouchableOpacity onPress={() => onOptionPress(1)} style={styles.button}>
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     modalContainer: {
         flex: 1, 
         justifyContent: 'flex-end',
-        marginBottom: 40,
+        marginBottom: 0,
       },
 
       modalContent: {

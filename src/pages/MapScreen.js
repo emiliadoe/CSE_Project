@@ -1,72 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, Button} from 'react-native';
+import React, { useEffect, useState, useRef  } from 'react';
+import { StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import * as Location from 'expo-location';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import AddButton from '../components/AddButton';
 import ReviewModal from "../pages/ReviewScreen"
 import RestaurantModal from './OneRestaurantModal';
+/* import RestaurantPage from './OneRestaurant';
+ */import RestaurantPage from './Restaurant';
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
 import { useNavigation } from '@react-navigation/native';
 import SearchBar from '../components/SearchBar';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Sending...']);
 
 const MapScreen = ()  => {
-
 
     const [location, setLocation] = useState(null);
     const [isReviewModalVisible, setReviewModalVisible] = useState(false);
     const [markers,setMarkers] = useState(null);
-    const [isRestaurantModalVisible, setRestaurantModalVisible] = useState(false);
-    const [selectedMarker, setSelectedMarker] = useState(null);
-
-  
-    const handleMarkerPress = (marker) => {
-      console.log(isRestaurantModalVisible)
-      setSelectedMarker(marker);
-      setRestaurantModalVisible(true);
-    };
-  
-    const closeRestaurantModal = () => {
-      setSelectedMarker(null);
-      setRestaurantModalVisible(false);
-    };
+    const setMarkerRef = useRef(null);
+    const pressCountRef = useRef(0);
+    const [restaurantModalVisible, setRestaurantModalVisible] = useState(false);
 
     const navigation = useNavigation();
+
+    const handleMarkerPress = (marker) => {
+      if(setMarkerRef.current != marker){
+        pressCountRef.current = 0; 
+      }
+        setMarkerRef.current= marker;
+
+        console.log('Marker Pressed:', setMarkerRef);
+
+        pressCountRef.current += 1;
+
+        console.log(pressCountRef)
+
+        if (pressCountRef.current === 2) {
+        setRestaurantModalVisible((prevVisible) => {
+          console.log(prevVisible); // Previous state
+          return true; 
+        });
+        pressCountRef.current = 0; 
+          const data = { restaurant: setMarkerRef.current };
+           navigation.navigate('RestaurantPage' ,{data} )
+             }
+        /*  setTimeout(() => {
+          pressCountRef.current = 0;
+       }, 500);  */
+    };
 
     const handleButton = () => {
       setReviewModalVisible(true);
     };
-  
-    const handleCloseReviewModal = () => {
+
+    const handleClose = () => {
       setReviewModalVisible(false);
     };
+  
+    const closeRestaurantModal = () => {
+    setRestaurantModalVisible(false)
+    }
+
 
     const handleOptionPress = (option) => {
       switch (option) {
         case 1:
-          // Handle option 1 (Add a Review)
           setReviewModalVisible(false);
           navigation.navigate(AddReviewPage)
           break;
         case 2:
-          // Handle option 2 (Add Photos)
           setReviewModalVisible(false);
           navigation.navigate(LoginPage)
           break;
         case 3:
-          // Handle option 3 (Add Listing)
           setReviewModalVisible(false);
           navigation.navigate(LoginPage)
           break;
         default:
-          // Handle other cases or provide a default action
           break;
     };
   }
-
-    const handleCancel = () => {
-      setReviewModalVisible(false);
-    };
 
   
     useEffect(() => {
@@ -74,7 +90,7 @@ const MapScreen = ()  => {
           try {
             const ip = process.env.CurrentIP;
               console.log("ip" + ip);
-              const response = await fetch(`http://${ip}:3000/markers/`);
+              const response = await fetch(`http://172.20.10.2:3000/markers/`); /* ${ip} */
               if (!response.ok) {
                   throw new Error('Network response was not ok');
               }
@@ -86,25 +102,32 @@ const MapScreen = ()  => {
       }
       fetchMarkers();
   }, []);
-   useEffect(() => {
-    (async () => {
+
+
+  useEffect(() => {
+    const fetchLocation = async () => {
       try {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           console.error('Permission to access location was denied');
           return;
         }
-
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        console.log('Location:', location);
+  
+        let locationData = await Location.getCurrentPositionAsync({});
+        setLocation(locationData);
+        console.log('Location:', locationData);
         console.log('Map Dimensions:', StyleSheet.flatten(styles.map));
       } catch (error) {
         console.error('Error getting location:', error);
       }
-
-    })();
-  }, []);  
+    };
+  
+    if (!location) {
+      fetchLocation();
+    }
+  }, [location]);
+  
+  
 
   return (
     <View  style={{ flex: 1 }}>
@@ -134,36 +157,41 @@ const MapScreen = ()  => {
             coordinate={{latitude:marker.latitude,longitude: marker.longitude}}
             title={marker.name}
             description={marker.description}
-           /*  onPress={() => handleMarkerPress(marker)}   */
-       />
-       
+            onPress={() => handleMarkerPress(marker)}
+       >
+         {/* <Callout onPress={handleTooltipPress}>
+            <View>
+              <Text>{marker.name}</Text>
+              <Text>{marker.description}</Text>
+            </View>
+          </Callout> */}
+          </Marker>
   ))
   ) :  null}
- {/* <View>
-    <RestaurantModal
-    animationType="slide"
-    transparent={false}
-    visible={isRestaurantModalVisible}
-    onRequestClose={isRestaurantModalVisible===false}
-  >  */}
-     {/* <View style={styles.modalContainer}>
-      <Text>{selectedMarker?.name}</Text>
-      <Text>{selectedMarker?.description}</Text>
-      <Button title="Close" onPress={closeRestaurantModal} />
-    </View>   */}
-{/*    </RestaurantModal>
-  </View>   */}   
+        </MapView> 
 
-        <AddButton onPress={handleButton}></AddButton>
+{/*    {restaurantModalVisible && ( 
+              <View style={styles.modalContainer}>  
+              <RestaurantModal
+                visible={restaurantModalVisible}
+                onClose={closeRestaurantModal}
+                restaurant={setMarkerRef.current}
+                onCancel={closeRestaurantModal}
+              />
+              </View>  
+          )} 
+ */}
+         <AddButton onPress={handleButton}/>
+    
         <View style={styles.modalContainer}>
        <ReviewModal
         isVisible={isReviewModalVisible}
-        onClose={handleCloseReviewModal}
+        onClose={handleClose}
         onOptionPress={handleOptionPress}
-        onCancel={handleCancel}
+        onCancel={handleClose} 
       />
       </View>
-      </MapView>  
+ 
       </View>
     ) : (
       //if no location
@@ -181,7 +209,8 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     modalContainer: {
-      position: 'absolute',
+/*       position: 'absolute', */
+    /*   flex: 1, */
       bottom: 0,
       left: 0,
       right: 0,
