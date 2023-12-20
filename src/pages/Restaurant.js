@@ -1,6 +1,8 @@
-import React from 'react';
-import {SafeAreaView, ScrollView, View, Image, TouchableOpacity, Text, StyleSheet, FlatList} from 'react-native';
+import React,{useState} from 'react';
+import {SafeAreaView,  View, Image, TouchableOpacity, Text, StyleSheet, FlatList} from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import AddButton from '../components/AddButton';
+import ReviewModal from './ReviewScreen';
 
 const RestaurantPage = () => {
 
@@ -9,12 +11,54 @@ const RestaurantPage = () => {
   console.log(data)
   console.log(data.restaurant)
 
+
+  const [isReviewModalVisible, setReviewModalVisible] = useState(false);
+
+
+  const handleButton = () => {
+    setReviewModalVisible(true);
+  };
+
+  const handleClose = () => {
+    setReviewModalVisible(false);
+  };
+
+
+  const handleOptionPress = (option) => {
+    switch (option) {
+      case 1:
+        setReviewModalVisible(false);
+        navigation.navigate(AddReviewPage)
+        break;
+      case 2:
+        setReviewModalVisible(false);
+        navigation.navigate(LoginPage)
+        break;
+      case 3:
+        setReviewModalVisible(false);
+        navigation.navigate(LoginPage)
+        break;
+      default:
+        break;
+  };
+}
+
   const restaurant1 = {
     reviews: [
       { user: 'User1', rating: 4, comment: 'Great food!', id:"1" },
       { user: 'User2', rating: 5, comment: 'Excellent service!', id:"2" },
     ],
   };
+
+     {/*        {restaurant1.reviews.map((review, index) => (
+          <View key={index} style={styles.review}>
+            <Text>{`User: ${review.user}`}</Text>
+            <Text>{`Rating: ${review.rating}/5`}</Text>
+            <Text>{`Comment: ${review.comment}`}</Text>
+            </View> 
+        ))} */}
+
+
 
   const renderItem = ({ item }) => (
     <View style={styles.reviewItem}>
@@ -24,13 +68,6 @@ const RestaurantPage = () => {
     </View>
   );
 
-   {/*        {restaurant1.reviews.map((review, index) => (
-          <View key={index} style={styles.review}>
-            <Text>{`User: ${review.user}`}</Text>
-            <Text>{`Rating: ${review.rating}/5`}</Text>
-            <Text>{`Comment: ${review.comment}`}</Text>
-            </View> 
-        ))} */}
 
 
   return (
@@ -61,6 +98,16 @@ const RestaurantPage = () => {
     />
     </View>
           </View>
+          <AddButton onPress={handleButton} style={{ /* bottom: 80,
+    right: 100 */}}
+    />
+
+          <ReviewModal
+        isVisible={isReviewModalVisible}
+        onClose={handleClose}
+        onOptionPress={handleOptionPress}
+        onCancel={handleClose} 
+      />
           </View>
         </TouchableOpacity>
       </View>
