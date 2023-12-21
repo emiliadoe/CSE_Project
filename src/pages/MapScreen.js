@@ -5,8 +5,7 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import AddButton from '../components/AddButton';
 import ReviewModal from "../pages/ReviewScreen"
 import RestaurantModal from './OneRestaurantModal';
-/* import RestaurantPage from './OneRestaurant';
- */import RestaurantPage from './Restaurant';
+import RestaurantPage from './Restaurant';
 import LoginPage from '../pages/Login'
 import AddReviewPage from '../pages/AddReview'
 import { useNavigation } from '@react-navigation/native';

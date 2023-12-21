@@ -1,31 +1,29 @@
 import React,{useState, useEffect} from 'react';
-import {SafeAreaView,  View, Image, TouchableOpacity, Text, StyleSheet, FlatList} from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import AddButton from '../components/AddButton';
-import ReviewModal from './ReviewScreen';
+import RestaurantPage from './Restaurant';
+import { Box, FlatList, Heading, Avatar, HStack, VStack, Text, Spacer, NativeBaseProvider, Center} from 'native-base';
+import { View,TouchableOpacity, StyleSheet} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const RestaurantOverview = () => {
-/* 
-   const route = useRoute();
-   const { data } = route.params || {}; */
+
+const RestaurantOverview = ()=> {
 
    const [markers,setMarkers] = useState(null);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.reviewItem}>
-      <Text style={styles.userName}>{item.user}</Text>
-      <Text style={styles.comment}>{item.comment}</Text>
-      <Text style={styles.rating}>Rating: {item.rating}</Text>
-    </View>
-  );
+   const navigation = useNavigation();
 
-  
+   const handlePress = (item) => {
+    console.log(item)
+    const data = { restaurant: item };
+      navigation.navigate('RestaurantPage' ,{data} ) 
+   } 
+
+
   useEffect(() => {
     async function fetchMarkers() {
         try {
           const ip = process.env.CurrentIP;
             console.log("ip" + ip);
-            const response = await fetch(`http://172.20.10.2:3000/markers/`); /* ${ip} */
+            const response = await fetch(`http://${ip}:3000/markers/`); 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -38,19 +36,42 @@ const RestaurantOverview = () => {
     fetchMarkers();
 }, []);
 
-
-  return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <View contentContainerStyle={styles.base}>
-        <FlatList
-      data={markers}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-    />
-    </View>
-    </SafeAreaView>
-  );
+  return <Box> 
+      <Heading marginTop= "10" fontSize="30" p="4" pb="3" marginBottom={10}>
+        Restaurant Overview
+      </Heading>
+      <FlatList 
+      data={markers} 
+      renderItem={({item}) => 
+      <View> 
+        <TouchableOpacity onPress={() => handlePress(item)} >
+     <Box borderBottomWidth="1" _dark={{
+      borderColor: "muted.50"
+    }} borderColor="muted.800" pl={["0", "4"]} pr={["0", "5"]} py="2"> 
+             <HStack space={[2, 3]} justifyContent="space-between"> 
+              <Avatar size="80px" source={require('../assets/icons/happycow2.jpg')}
+         />
+            <VStack> 
+                <Text _dark={{
+            color: "warmGray.50"
+          }} color="coolGray.800" bold>
+                  {item.name}
+                </Text>
+                <Text color="coolGray.600" _dark={{
+            color: "warmGray.200"
+          }}>
+                  {item.description}
+                </Text>
+             </VStack>
+              <Spacer />
+            </HStack> 
+         </Box> 
+         </TouchableOpacity>
+            </View>}
+          keyExtractor={item => item.id} />
+     </Box>
 };
+
 
 const styles = StyleSheet.create({
     safeAreaView: {
@@ -64,4 +85,12 @@ const styles = StyleSheet.create({
 });
     
 
-export default RestaurantOverview;
+export default () => {
+    return (
+      <NativeBaseProvider>
+      {/*   <Center flex={1} px="3"> */}
+            <RestaurantOverview />
+      {/*   </Center> */}
+      </NativeBaseProvider>
+    );
+    }

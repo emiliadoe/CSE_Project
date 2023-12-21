@@ -1,8 +1,11 @@
 import React,{useState, useEffect} from 'react';
 import {SafeAreaView,  View, Image, TouchableOpacity, Text, StyleSheet, FlatList} from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import AddButton from '../components/AddButton';
 import ReviewModal from './ReviewScreen';
+import DraggableButton from '../components/AddButtonDraggable';
+import AddReviewPage from './AddReview';
+import LoginPage from './Login';
 
 const RestaurantPage = () => {
 
@@ -12,24 +15,6 @@ const RestaurantPage = () => {
   console.log(data)
   console.log("id : "+data.restaurant.id)
 
-  useEffect(() => {
-    async function fetchReviews() {
-        try {
-          const ip = process.env.CurrentIP;
-            console.log("ip" + ip);
-            const id = data.restaurant.id;
-            const response = await fetch(`http://${ip}:3000/reviews/${id}`); /* ${ip} */
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            setReviews(data);
-        } catch (error) {
-            console.error('Error fetching reviews:', error);
-        }
-    }
-    fetchReviews();
-}, []);
 
   const [isReviewModalVisible, setReviewModalVisible] = useState(false);
 
@@ -90,9 +75,11 @@ const RestaurantPage = () => {
 
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <SafeAreaView style={styles.safeAreaView}  
+     onPressLeft={() => {
+      navigation.goBack();
+    }}>
       <View contentContainerStyle={styles.base}>
-        <TouchableOpacity style={styles.card} activeOpacity={0.8}>
           <View style={styles.cardTop}>
             <Image style={styles.cardImg} source={require('../assets/icons/noimage.jpg')} />
             <View style={styles.cardImgOverlay} />
@@ -109,18 +96,17 @@ const RestaurantPage = () => {
             <View style={styles.cardFooter}>
             <Text style={styles.sectionTitle}>Reviews:</Text>
 <View>
+<TouchableOpacity style={styles.card} activeOpacity={0.8}>
 <FlatList
       data={reviews}
   /*     keyExtractor={(item) => item.id} */
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
     />
+            </TouchableOpacity>
     </View>
           </View>
-          <AddButton onPress={handleButton} style={{ /* bottom: 80,
-    right: 100 */}}
-    />
-
+          <DraggableButton onPress={handleButton} />
           <ReviewModal
         isVisible={isReviewModalVisible}
         onClose={handleClose}
@@ -128,7 +114,6 @@ const RestaurantPage = () => {
         onCancel={handleClose} 
       />
           </View>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
