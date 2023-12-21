@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {SafeAreaView,  View, Image, TouchableOpacity, Text, StyleSheet, FlatList} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import AddButton from '../components/AddButton';
@@ -8,9 +8,28 @@ const RestaurantPage = () => {
 
    const route = useRoute();
    const { data } = route.params || {};
+   const [reviews,setReviews] = useState(null);
   console.log(data)
-  console.log(data.restaurant)
+  console.log("id : "+data.restaurant.id)
 
+  useEffect(() => {
+    async function fetchReviews() {
+        try {
+          const ip = process.env.CurrentIP;
+            console.log("ip" + ip);
+            const id = data.restaurant.id;
+            const response = await fetch(`http://${ip}:3000/reviews/${id}`); /* ${ip} */
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setReviews(data);
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    }
+    fetchReviews();
+}, []);
 
   const [isReviewModalVisible, setReviewModalVisible] = useState(false);
 
@@ -43,12 +62,12 @@ const RestaurantPage = () => {
   };
 }
 
-  const restaurant1 = {
-    reviews: [
-      { user: 'User1', rating: 4, comment: 'Great food!', id:"1" },
-      { user: 'User2', rating: 5, comment: 'Excellent service!', id:"2" },
-    ],
-  };
+  // const restaurant1 = {
+  //   reviews: [
+  //     { user: 'User1', rating: 4, comment: 'Great food!', id:"1" },
+  //     { user: 'User2', rating: 5, comment: 'Excellent service!', id:"2" },
+  //   ],
+  // };
 
      {/*        {restaurant1.reviews.map((review, index) => (
           <View key={index} style={styles.review}>
@@ -60,11 +79,11 @@ const RestaurantPage = () => {
 
 
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ review }) => (
     <View style={styles.reviewItem}>
-      <Text style={styles.userName}>{item.user}</Text>
-      <Text style={styles.comment}>{item.comment}</Text>
-      <Text style={styles.rating}>Rating: {item.rating}</Text>
+      <Text style={styles.userName}>{review.title}</Text>
+      <Text style={styles.comment}>{review.description}</Text>
+      <Text style={styles.rating}>Rating: {review.rating}</Text>
     </View>
   );
 
@@ -91,7 +110,7 @@ const RestaurantPage = () => {
             <Text style={styles.sectionTitle}>Reviews:</Text>
 <View>
 <FlatList
-      data={restaurant1.reviews}
+      data={reviews}
   /*     keyExtractor={(item) => item.id} */
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
