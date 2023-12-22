@@ -7,11 +7,13 @@ import DraggableButton from '../components/AddButtonDraggable';
 import AddReviewPage from './AddReview';
 import LoginPage from './Login';
 
-const RestaurantPage = () => {
 
+const RestaurantPage = () => {
+  const navigation = useNavigation();
    const route = useRoute();
    const { data } = route.params || {};
    const [reviews,setReviews] = useState(null);
+   const [restaurant,setRestaurant] = useState(data.restaurant);
   console.log(data)
   console.log("id : "+data.restaurant.id)
 
@@ -32,7 +34,7 @@ const RestaurantPage = () => {
     switch (option) {
       case 1:
         setReviewModalVisible(false);
-        navigation.navigate(AddReviewPage)
+        navigation.navigate("AddReviewPage",{ data: restaurant})
         break;
       case 2:
         setReviewModalVisible(false);
@@ -47,6 +49,25 @@ const RestaurantPage = () => {
   };
 }
 
+
+useEffect(() => {
+  async function fetchReviews() {
+      try {
+        const ip = process.env.CurrentIP;
+          const response = await fetch(`http://${ip}:3000/reviews/${restaurant.id}`); 
+          console.log("data"+ response);
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+
+          setReviews(data);
+      } catch (error) {
+          console.error('Error fetching reviews:', error);
+      }
+  }
+  fetchReviews();
+}, []);
   // const restaurant1 = {
   //   reviews: [
   //     { user: 'User1', rating: 4, comment: 'Great food!', id:"1" },
@@ -64,7 +85,7 @@ const RestaurantPage = () => {
 
 
 
-  const renderItem = ({ review }) => (
+  const renderItem = ({ item: review }) => (
     <View style={styles.reviewItem}>
       <Text style={styles.userName}>{review.title}</Text>
       <Text style={styles.comment}>{review.description}</Text>
@@ -81,7 +102,7 @@ const RestaurantPage = () => {
     }}>
       <View contentContainerStyle={styles.base}>
           <View style={styles.cardTop}>
-            <Image style={styles.cardImg} source={require('../assets/icons/noimage.jpg')} />
+            <Image  style={styles.cardImg} source={require('../assets/icons/restaurant.jpg')} />
             <View style={styles.cardImgOverlay} />
             <View style={styles.cardOption} pointerEvents="box-none">
             </View>
@@ -219,7 +240,9 @@ const styles = StyleSheet.create({
       marginBottom: 8,
     },
     reviewItem: {
-      padding: 10,
+      padding: 15,
+      width: 230,
+      height:75,
       borderBottomWidth: 1,
       borderBottomColor: '#ccc',
     },
@@ -234,6 +257,22 @@ const styles = StyleSheet.create({
       fontSize: 12,
       color: 'green',
     },
+    cardTop: {
+      position: 'relative',
+      overflow: 'hidden',
+      borderRadius: 10,
+      height: 200, // Set the height as needed
+    },
+    cardImg: {
+      width: '100%', // Set width to fill the entire container
+      height: '100%', // Set height to fill the entire container
+      resizeMode: 'cover', // Make sure the image covers the entire container
+    },
+    cardImgOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'rgba(0,0,0,0.3)', // Add an overlay if needed
+    },
+    
 });
     
 
